@@ -1,7 +1,12 @@
 <resources>
+    <!--MainActivity start-->
     <string name="app_name">PracticAndroid7</string>
     <string name="aValue">Введите a</string>
     <string name="bValue">Введите b</string>
     <string name="result">Посчитать уравнение</string>
+    <string name="result1">x - любое число</string>
+    <string name="result2">нет решений</string>
     <string name="error">Ошибка</string>
+    <string name="resultOfEquation">x &lt; %s</string>
+    <!--MainActivity end-->
 </resources>
