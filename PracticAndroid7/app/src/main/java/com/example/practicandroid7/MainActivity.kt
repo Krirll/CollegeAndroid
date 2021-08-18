@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                     if (second.toInt() < 0) result.text = "x - любое число"
                     else result.text = "нет решений"
                 }
-                else result.text = "x < ${(-second.toInt() / first.toInt())}"
+                else result.text = "x < ${String.format("%.3f", (-second.toDouble() / first.toDouble()))}"
             }
             else result.text = resources.getString(R.string.error)
         }
