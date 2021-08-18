@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PracticAndroid7</string>
+    <string name="aValue">Введите a</string>
+    <string name="bValue">Введите b</string>
+    <string name="result">Посчитать уравнение</string>
+    <string name="error">Ошибка</string>
+</resources>
