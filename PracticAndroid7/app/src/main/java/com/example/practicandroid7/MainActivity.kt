@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             val second = findViewById<EditText>(R.id.secondNumber).text.toString()
             val result = findViewById<TextView>(R.id.textView)
             if (first.toDoubleOrNull() != null && second.toDoubleOrNull() != null) {
-                if (first.toInt() == 0) {
+                if (first.toDouble() == 0.0) {
                     if (second.toDouble() < 0) result.text = resources.getString(R.string.result1)
                     else result.text = resources.getString(R.string.result2)
                 }
