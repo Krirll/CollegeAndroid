@@ -5,7 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import com.example.practicandroid7_8.R
+
+class Equation private constructor() {
+    companion object {
+        fun getResultOfEquation(firstNumber : String, secondNumber : String) : Double =
+            if (firstNumber.toDoubleOrNull() != null && secondNumber.toDoubleOrNull() != null) {
+                if (firstNumber.toDouble() == 0.0) {
+                    if (secondNumber.toDouble() < 0) 1.0 //@string/result1
+                    else 2.0 //@string/result2
+                } else -secondNumber.toDouble() / firstNumber.toDouble() //@string/resultOfEquation
+            } else 4.0 //@string/error
+    }
+}
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,20 +25,16 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.button)
         // ax + b < 0
         button.setOnClickListener {
-            val first = findViewById<EditText>(R.id.firstNumber).text.toString()
-            val second = findViewById<EditText>(R.id.secondNumber).text.toString()
-            val result =
-                if (first.toDoubleOrNull() != null && second.toDoubleOrNull() != null) {
-                    if (first.toDouble() == 0.0) {
-                        if (second.toDouble() < 0) resources.getString(R.string.result1)
-                        else resources.getString(R.string.result2)
-                    } else resources.getString(
-                        R.string.resultOfEquation,
-                        String.format("%.3f", (-second.toDouble() / first.toDouble()))
-                    )
-                } else resources.getString(R.string.error)
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra(ResultActivity.resultEquation, result)
+            val resultString =
+                when(val result = Equation.getResultOfEquation(findViewById<EditText>(R.id.firstNumber).text.toString(),
+                                                               findViewById<EditText>(R.id.secondNumber).text.toString())) {
+                    1.0 -> getString(R.string.result1)
+                    2.0 -> getString(R.string.result2)
+                    4.0 -> getString(R.string.error)
+                    else -> getString(R.string.resultOfEquation, String.format("%.3f", result))
+            }
+            intent.putExtra(ResultActivity.resultEquation, resultString)
             startActivity(intent)
         }
     }
