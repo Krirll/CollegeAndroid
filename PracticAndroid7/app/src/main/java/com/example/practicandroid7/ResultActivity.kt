@@ -9,6 +9,9 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
         findViewById<TextView>(R.id.textView).text =
-            intent.getStringExtra("RESULT")
+            intent.getStringExtra(resultEquation)
+    }
+    companion object {
+        const val  resultEquation = "RESULT"
     }
 }

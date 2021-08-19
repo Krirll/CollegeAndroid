@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 } else resources.getString(R.string.error)
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putExtra("RESULT", result)
+            intent.putExtra(ResultActivity.resultEquation, result)
             startActivity(intent)
         }
     }
