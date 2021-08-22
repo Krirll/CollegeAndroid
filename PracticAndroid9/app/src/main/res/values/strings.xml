@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PracticAndroid9</string>
+    <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="sort">Сортировать</string>
+    <string name="search">Найти</string>
+    <string name="show">Показать</string>
+</resources>
