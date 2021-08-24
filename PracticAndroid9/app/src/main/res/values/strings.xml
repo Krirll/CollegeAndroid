@@ -6,4 +6,9 @@
     <string name="sort">Сортировать</string>
     <string name="search">Найти</string>
     <string name="show">Показать</string>
+    <string name="productName">Название</string>
+    <string name="count">Кол-во</string>
+    <string name="price">Стоимость</string>
+    <string name="dateOfBuy">Дата покупки</string>
+    <string name="addNew">Добавить</string>
 </resources>
