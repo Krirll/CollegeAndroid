@@ -9,7 +9,7 @@ class AddElementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_element)
         findViewById<Button>(R.id.AddElem).setOnClickListener {
-            val
+
         }
     }
 }
