@@ -11,4 +11,7 @@
     <string name="price">Стоимость</string>
     <string name="dateOfBuy">Дата покупки</string>
     <string name="addNew">Добавить</string>
+    <string name="ok">OK</string>
+    <string name="Error">Ошибка!</string>
+    <string name="ErrorField">Неправильно заполнены поля, попробуйте снова</string>
 </resources>
