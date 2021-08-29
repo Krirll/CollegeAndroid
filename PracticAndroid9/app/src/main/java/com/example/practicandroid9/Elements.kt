@@ -13,14 +13,16 @@ object Elements {
         1 -> list.sortBy { it.product }
         2 -> list.sortBy { it.count }
         3 -> list.sortBy { it.price }
-        else -> list.sortBy { it.date }
+        4 -> list.sortBy { it.date }
+        else -> {}
     }
     fun search(typeOfSearch : Int, word : String) =
         when(typeOfSearch) {
             1 -> list.map { it.product.contains(word) }
             2 -> list.map { it.count == word.toInt() }
             3 -> list.map { it.price == word.toInt() }
-            else -> list.map { it.date.toString() == word }
+            4 -> list.map { it.date.toString().contains(word) }
+            else -> null
         }
     fun printAll() = list
 }
