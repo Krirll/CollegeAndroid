@@ -25,10 +25,10 @@ class CustomRecyclerAdapter(private val list : MutableList<Objects>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.product.text = "Покупка: " + list[position].product
-        holder.count.text = "Кол-во: " + list[position].count
-        holder.price.text = "Цена: " + list[position].price
-        holder.date.text = "Дата: " + SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT).format(list[position].date)
+        holder.product.text = holder.itemView.context.getString(R.string.ProductName, list[position].product)
+        holder.count.text = holder.itemView.context.getString(R.string.Count, list[position].count)
+        holder.price.text = holder.itemView.context.getString(R.string.Price, list[position].price)
+        holder.date.text = holder.itemView.context.getString(R.string.DateOfBuy, SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT).format(list[position].date))
         holder.itemView.setOnLongClickListener {
             val dialogBuilder = AlertDialog.Builder(holder.itemView.context)
             dialogBuilder.setCancelable(false)

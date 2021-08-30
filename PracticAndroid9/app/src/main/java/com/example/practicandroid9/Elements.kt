@@ -2,7 +2,7 @@ package com.example.practicandroid9
 
 import java.util.Date
 
-data class Objects (val product : String, val count : Int, val price : Int, val date: Date)
+data class Objects (val product : String, val count : Int, val price : Double, val date: Date)
 
 object Elements {
     private val list : MutableList<Objects> = mutableListOf()
@@ -20,7 +20,7 @@ object Elements {
         when(typeOfSearch) {
             1 -> list.map { it.product.contains(word) }
             2 -> list.map { it.count == word.toInt() }
-            3 -> list.map { it.price == word.toInt() }
+            3 -> list.map { it.price == word.toDouble() }
             4 -> list.map { it.date.toString().contains(word) }
             else -> null
         }

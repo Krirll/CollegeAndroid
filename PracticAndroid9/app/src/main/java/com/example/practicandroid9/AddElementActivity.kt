@@ -15,8 +15,8 @@ class AddElementActivity : AppCompatActivity() {
             val product = findViewById<EditText>(R.id.productName).text
             val count = findViewById<EditText>(R.id.count).text
             val price = findViewById<EditText>(R.id.price).text
-            if (Data.checkData(product.toString(), count.toString().toIntOrNull(), price.toString().toIntOrNull())) {
-                Elements.add(Objects(product.toString(), count.toString().toInt(), price.toString().toInt(), Date()))
+            if (Data.checkData(product.toString(), count.toString().toIntOrNull(), price.toString().toDoubleOrNull())) {
+                Elements.add(Objects(product.toString(), count.toString().toInt(), price.toString().toDouble(), Date()))
                 finish()
             }
             else {

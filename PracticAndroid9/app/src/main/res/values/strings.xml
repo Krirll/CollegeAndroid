@@ -6,10 +6,14 @@
     <string name="sort">Сортировать</string>
     <string name="search">Найти</string>
     <string name="show">Показать</string>
-    <string name="productName">Название</string>
+    <string name="productName">Покупка</string>
     <string name="count">Кол-во</string>
     <string name="price">Стоимость</string>
-    <string name="dateOfBuy">Дата покупки</string>
+    <string name="dateOfBuy">Дата</string>
+    <string name="ProductName">Покупка: %s</string>
+    <string name="Count">Кол-во: %d</string>
+    <string name="Price">Стоимость: %.2f</string>
+    <string name="DateOfBuy">Дата: %s</string>
     <string name="addNew">Добавить</string>
     <string name="ok">OK</string>
     <string name="Error">Ошибка!</string>

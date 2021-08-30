@@ -19,7 +19,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text=""
-        android:textColorHint="#050505"
+        android:textColorHint="#8d99ae"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="100dp" />
 
@@ -34,7 +34,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text=""
-        android:textColorHint="#121111"
+        android:textColorHint="#8d99ae"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
         tools:layout_editor_absoluteX="100dp" />
 
@@ -49,7 +49,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text=""
-        android:textColorHint="#100F0F"
+        android:textColorHint="#8d99ae"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
         tools:layout_editor_absoluteX="100dp" />
 
