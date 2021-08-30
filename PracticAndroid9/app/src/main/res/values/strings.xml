@@ -14,4 +14,6 @@
     <string name="ok">OK</string>
     <string name="Error">Ошибка!</string>
     <string name="ErrorField">Неправильно заполнены поля, попробуйте снова</string>
+    <string name="ChooseAction">Выберите действие</string>
+    <string name="cancel">отмена</string>
 </resources>

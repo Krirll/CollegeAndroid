@@ -7,6 +7,7 @@ import android.widget.EditText
 import java.util.Date
 
 class AddElementActivity : AppCompatActivity() {
+    //TODO сделать подходящим и для добавления и для редактирования
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_element)
@@ -19,7 +20,7 @@ class AddElementActivity : AppCompatActivity() {
                 finish()
             }
             else {
-                Dialog().createDialog(this, R.string.ErrorField, R.string.Error)
+                Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
                 product.clear()
                 count.clear()
                 price.clear()
