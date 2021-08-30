@@ -1,8 +1,9 @@
 package com.example.practicandroid9
 
+import java.io.Serializable
 import java.util.Date
 
-data class Objects (val product : String, val count : Int, val price : Double, val date: Date)
+data class Objects (val product : String, val count : Int, val price : Double, val date: Date) : Serializable
 
 object Elements {
     private val list : MutableList<Objects> = mutableListOf()

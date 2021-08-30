@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -41,7 +42,9 @@ class CustomRecyclerAdapter(private val list : MutableList<Objects>, private val
                 }
                 .setNegativeButton(R.string.edit) { dialog, _  -> dialog.dismiss()
                                                                     val intent = Intent(recyclerView.context, AddElementActivity::class.java)
-                                                                    
+                                                                    intent.putExtra(AddElementActivity.edit, list[holder.adapterPosition])
+                                                                    startActivity(recyclerView.context, intent, null)
+
                 }
                 .setNeutralButton(R.string.cancel) { dialog, _  -> dialog.dismiss() }
             val alert = dialogBuilder.create()
