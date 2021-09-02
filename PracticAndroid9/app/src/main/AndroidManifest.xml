@@ -25,7 +25,7 @@
             android:name=".DeleteElementActivity"
             android:exported="true" />
         <activity
-            android:name=".AddElementActivity"
+            android:name=".AddEditElementActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val search = findViewById<Button>(R.id.SearchButton)
         val show = findViewById<Button>(R.id.ShowButton)
         add.setOnClickListener {
-            val intent = Intent(this, AddElementActivity::class.java)
+            val intent = Intent(this, AddEditElementActivity::class.java)
             startActivity(intent)
         }
         delete.setOnClickListener {

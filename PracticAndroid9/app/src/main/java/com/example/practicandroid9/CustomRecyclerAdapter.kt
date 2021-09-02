@@ -41,9 +41,9 @@ class CustomRecyclerAdapter(private val list : MutableList<Objects>, private val
                                                                     recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
                 }
                 .setNegativeButton(R.string.edit) { dialog, _  -> dialog.dismiss()
-                                                                    val intent = Intent(recyclerView.context, AddElementActivity::class.java).apply {
-                                                                        putExtra(AddElementActivity.edit, list[holder.adapterPosition])
-                                                                        putExtra(AddElementActivity.editIndex, holder.adapterPosition)
+                                                                    val intent = Intent(recyclerView.context, AddEditElementActivity::class.java).apply {
+                                                                        putExtra(AddEditElementActivity.edit, list[holder.adapterPosition])
+                                                                        putExtra(AddEditElementActivity.editIndex, holder.adapterPosition)
                                                                         //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                                                         //addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                                                     }
