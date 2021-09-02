@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.system.exitProcess
 
 class CustomRecyclerAdapter(private val list : MutableList<Objects>, private val recyclerView: RecyclerView) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
@@ -40,16 +41,22 @@ class CustomRecyclerAdapter(private val list : MutableList<Objects>, private val
                                                                     Elements.delete(holder.adapterPosition)
                                                                     recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
                 }
-                .setNegativeButton(R.string.edit) { dialog, _  -> dialog.dismiss()
-                                                                    val intent = Intent(recyclerView.context, AddEditElementActivity::class.java).apply {
-                                                                        putExtra(AddEditElementActivity.edit, list[holder.adapterPosition])
-                                                                        putExtra(AddEditElementActivity.editIndex, holder.adapterPosition)
-                                                                        //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                                        //addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                                                    }
-                    //TODO сделать так чтобы activity Show здесь закрывалось
-                                                                    startActivity(recyclerView.context, intent, null)
-
+                .setNegativeButton(R.string.edit) {
+                        dialog, _  -> dialog.dismiss()
+                        val intent = Intent(recyclerView.context, AddEditElementActivity::class.java).apply {
+                            putExtra(
+                                AddEditElementActivity.edit,
+                                list[holder.adapterPosition]
+                            )
+                            putExtra(
+                                AddEditElementActivity.editIndex,
+                                holder.adapterPosition
+                            )
+                        }
+                    /*TODO сделать так чтобы activity Show здесь закрывалось
+                            перенести блок кода с диалоговым окном в класс Dialog
+                     */
+                    startActivity(recyclerView.context, intent, null)
                 }
                 .setNeutralButton(R.string.cancel) { dialog, _  -> dialog.dismiss() }
             val alert = dialogBuilder.create()

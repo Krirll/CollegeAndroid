@@ -13,18 +13,6 @@
             android:name=".ShowElementsActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchElementsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SortElementsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".EditElementActivity"
-            android:exported="true" />
-        <activity
-            android:name=".DeleteElementActivity"
-            android:exported="true" />
-        <activity
             android:name=".AddEditElementActivity"
             android:exported="true" />
         <activity
