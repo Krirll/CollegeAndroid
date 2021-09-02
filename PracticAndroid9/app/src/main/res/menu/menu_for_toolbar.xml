@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addBarButton"
+        android:icon="@drawable/round_add_black_24dp"
+        android:title=""
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/searchBarButton"
+        android:icon="@drawable/round_search_black_24dp"
+        android:title=""
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/choiceSortBarButton"
+        android:icon="@drawable/round_more_vert_black_24dp"
+        android:title=""
+        app:showAsAction="always"/>
+</menu>
