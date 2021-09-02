@@ -20,4 +20,7 @@
     <string name="ErrorField">Неправильно заполнены поля, попробуйте снова</string>
     <string name="ChooseAction">Выберите действие</string>
     <string name="cancel">отмена</string>
+    <string name="editProductName">%s</string>
+    <string name="editCount">%d</string>
+    <string name="editPrice">%.2f</string>
 </resources>
