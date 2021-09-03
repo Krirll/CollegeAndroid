@@ -24,4 +24,8 @@
     <string name="editCount">%d</string>
     <string name="editPrice">%.2f</string>
     <string name="ToolbarTitle">My toolbar</string>
+    <string name="sortProduct">Сортировать по названию</string>
+    <string name="sortCount">Сортировать по количеству</string>
+    <string name="sortPrice">Сортировать по цене</string>
+    <string name="sortDate">Сортировать по дате</string>
 </resources>

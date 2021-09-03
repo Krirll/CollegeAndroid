@@ -28,7 +28,10 @@ class ShowElementsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.addBarButton -> { true }
         R.id.searchBarButton -> { true }
-        R.id.choiceSortBarButton -> { true }
+        R.id.sortProducr -> { true }
+        R.id.sortCount -> { true }
+        R.id.sortPrice -> { true }
+        R.id.sortDate -> { true }
         else -> { false }
     }
 }
