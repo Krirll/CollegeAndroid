@@ -44,8 +44,8 @@ class AddEditElementActivity : AppCompatActivity() {
                             price.text.toString().toDouble(), (elem as Objects).date
                         )
                     )
-                    startActivity(Intent(this, ShowElementsActivity::class.java))
                 }
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
             else {

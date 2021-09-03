@@ -3,33 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/sortProducr"
-
+            android:id="@+id/sortProduct"
             android:title="@string/sortProduct"
             app:showAsAction="never" />
         <item
             android:id="@+id/sortCount"
             android:title="@string/sortCount"
             app:showAsAction="never" />
-    <item
-        android:id="@+id/sortPrice"
-        android:title="@string/sortPrice"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/sortDate"
-        android:title="@string/sortDate"
-        app:actionViewClass="android.widget.Button"
-        app:showAsAction="never"/>
+        <item
+            android:id="@+id/sortPrice"
+            android:title="@string/sortPrice"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/sortDate"
+            android:title="@string/sortDate"
+            app:actionViewClass="android.widget.Button"
+            app:showAsAction="never"/>
     </group>
 
     <item
         android:id="@+id/addBarButton"
-        android:icon="@drawable/round_add_black_24dp"
+        android:icon="@drawable/round_add_white_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/searchBarButton"
-        android:icon="@drawable/round_search_black_24dp"
+        android:icon="@drawable/round_search_white_24dp"
         android:title=""
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>

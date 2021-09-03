@@ -10,7 +10,7 @@ import java.util.Locale
 
 class CustomRecyclerAdapter(private val list : MutableList<Objects>,
                             private val recyclerView: RecyclerView,
-                            private val activity: ShowElementsActivity) :
+                            private val activity: MainActivity) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
