@@ -13,7 +13,7 @@ class ShowElementsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_show_elements)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CustomRecyclerAdapter(Elements.printAll(), recyclerView)
+        recyclerView.adapter = CustomRecyclerAdapter(Elements.printAll(), recyclerView, this)
         //setting toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
     }
