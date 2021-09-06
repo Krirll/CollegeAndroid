@@ -25,6 +25,7 @@ object Dialog {
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()
                 Elements.delete(holder.adapterPosition)
+                ActualList.list = Elements.printAll()
                 recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
             }
             .setNegativeButton(R.string.edit) { dialog, _ ->

@@ -28,4 +28,6 @@
     <string name="sortCount">Сортировать по количеству</string>
     <string name="sortPrice">Сортировать по цене</string>
     <string name="sortDate">Сортировать по дате</string>
+    <string name="clearList">Очистить весь список</string>
+    <string name="defaultList">По умолчанию</string>
 </resources>

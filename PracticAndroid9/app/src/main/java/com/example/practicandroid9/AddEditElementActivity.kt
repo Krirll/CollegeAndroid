@@ -13,24 +13,25 @@ class AddEditElementActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_edit_element)
         val elem = intent.getSerializableExtra(edit)
         val indexOfElem = intent.getIntExtra(editIndex, -1)
-        val product = findViewById<EditText>(R.id.productName)
+        val productName = findViewById<EditText>(R.id.productName)
         val count = findViewById<EditText>(R.id.count)
         val price = findViewById<EditText>(R.id.price)
+        val addElem = findViewById<Button>(R.id.AddElem)
         if (elem != null) {
-            product.setText(getString(R.string.editProductName, (elem as Objects).product))
-            count.setText(getString(R.string.editCount, elem.count))
-            price.setText(getString(R.string.editPrice, elem.price))
+            productName.setText((elem as Objects).product)
+            count.setText(elem.count.toString())
+            price.setText(elem.price.toString())
+            //такое решение необходимо из-за локальных стандартов (для смены запятой на точку)
         }
-        val button = findViewById<Button>(R.id.AddElem)
-        button.text = getString(if (elem == null) R.string.addNew else R.string.edit)
-        button.setOnClickListener {
-            if (Data.checkData(product.text.toString(),
+        addElem.text = getString(if (elem == null) R.string.addNew else R.string.edit)
+        addElem.setOnClickListener {
+            if (Data.checkData(productName.text.toString(),
                                 count.text.toString().toIntOrNull(),
                                 price.text.toString().toDoubleOrNull())) {
                 if (elem == null) {
                     Elements.add(
                         Objects(
-                            product.text.toString(),
+                            productName.text.toString(),
                             count.text.toString().toInt(),
                             price.text.toString().toDouble(), Date()
                         )
@@ -39,7 +40,7 @@ class AddEditElementActivity : AppCompatActivity() {
                 else {
                     Elements.edit(indexOfElem,
                         Objects(
-                            product.text.toString(),
+                            productName.text.toString(),
                             count.text.toString().toInt(),
                             price.text.toString().toDouble(), (elem as Objects).date
                         )
@@ -50,13 +51,18 @@ class AddEditElementActivity : AppCompatActivity() {
             }
             else {
                 Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
-                product.text.clear()
+                productName.text.clear()
                 count.text.clear()
                 price.text.clear()
             }
         }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        super.onBackPressed()
+    }
     companion object {
         const val edit = "EDIT_ELEM"
         const val editIndex = "EDIT_INDEX"

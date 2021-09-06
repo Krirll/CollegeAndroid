@@ -1,7 +1,8 @@
 package com.example.practicandroid9
 
 import java.io.Serializable
-import java.util.Date
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class Objects (val product : String, val count : Int, val price : Double, val date: Date) : Serializable
 
@@ -10,21 +11,32 @@ object Elements {
     fun add(elem : Objects) = list.add(elem)
     fun delete(index : Int) = list.removeAt(index)
     fun edit(index : Int, newElem : Objects) { list[index] = newElem }
-    fun sort(typeOfSort : Int) = when(typeOfSort) {
-        1 -> list.sortBy { it.product }
-        2 -> list.sortBy { it.count }
-        3 -> list.sortBy { it.price }
-        4 -> list.sortBy { it.date }
-        else -> {}
-    }
-    fun search(typeOfSearch : Int, word : String) =
-        when(typeOfSearch) {
-            1 -> list.map { it.product.contains(word) }
-            2 -> list.map { it.count == word.toInt() }
-            3 -> list.map { it.price == word.toDouble() }
-            4 -> list.map { it.date.toString().contains(word) }
-            else -> null
+    fun sort(typeOfSort : Int) : MutableList<Objects> {
+        val sortedList = printAll()
+            when(typeOfSort) {
+                            1 -> sortedList.sortBy { it.product }
+                            2 -> sortedList.sortBy { it.count }
+                            3 -> sortedList.sortBy { it.price }
+                            else -> sortedList.sortBy { it.date }
         }
+        return sortedList
+    }
+    fun search(word : String) : List<Objects> {
+        var foundElements = list.filter { it.product.contains(word) }
+        if (foundElements.count() == 0) {
+            foundElements = list.filter { it.count.toString().contains(word) }
+            if (foundElements.count() == 0) {
+                foundElements = list.filter { it.price.toString().contains(word) }
+                if (foundElements.count() == 0) {
+                    foundElements = list.filter {
+                        SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT).format(it.date).contains(word)
+                    }
+                }
+            }
+        }
+        return foundElements
+    }
+    fun deleteAll() = list.clear()
     fun printAll() = list
 }
 

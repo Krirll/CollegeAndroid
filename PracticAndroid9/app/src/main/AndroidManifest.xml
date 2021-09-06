@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticAndroid9">
         <activity
-            android:name=".ShowElementsActivity"
-            android:exported="true" />
-        <activity
             android:name=".AddEditElementActivity"
             android:exported="true" />
         <activity
