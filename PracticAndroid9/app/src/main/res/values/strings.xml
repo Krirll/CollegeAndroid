@@ -23,11 +23,17 @@
     <string name="editProductName">%s</string>
     <string name="editCount">%d</string>
     <string name="editPrice">%.2f</string>
-    <string name="ToolbarTitle">My toolbar</string>
+    <string name="ToolbarTitle">Покупки</string>
     <string name="sortProduct">Сортировать по названию</string>
     <string name="sortCount">Сортировать по количеству</string>
     <string name="sortPrice">Сортировать по цене</string>
     <string name="sortDate">Сортировать по дате</string>
     <string name="clearList">Очистить весь список</string>
     <string name="defaultList">По умолчанию</string>
+    <string name="Yes">Да</string>
+    <string name="No">Нет</string>
+    <string name="Confirm">Подтвердите действие</string>
+    <string name="ConfirmMessage">Вы уверены, что хотите очистить весь список?</string>
+    <string name="NoProducts">Нет покупок по вашему запросу</string>
+    <string name="EmptyList">Ваш список пуст. Добавить покупки можно нажав на +</string>
 </resources>

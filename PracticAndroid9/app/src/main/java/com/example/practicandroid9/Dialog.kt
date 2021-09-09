@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
@@ -27,6 +29,12 @@ object Dialog {
                 Elements.delete(holder.adapterPosition)
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
+                val view = activity.findViewById<TextView>(R.id.resultText)
+                if (ActualList.list.count() == 0) {
+                    view.visibility = View.VISIBLE
+                    view.text = activity.getString(R.string.EmptyList)
+                }
+                else view.visibility = View.INVISIBLE
             }
             .setNegativeButton(R.string.edit) { dialog, _ ->
                 dialog.dismiss()
@@ -46,5 +54,21 @@ object Dialog {
             }
             .setNeutralButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         return dialogBuilder
+    }
+    fun createConfirmDialog (activity : MainActivity, messageStringId : Int,
+                             titleStringId : Int,
+                             recyclerView: RecyclerView) {
+        val dialogBuilder = AlertDialog.Builder(activity)
+        dialogBuilder.setMessage(messageStringId)
+            .setCancelable(false)
+            .setNeutralButton(R.string.No) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(R.string.Yes) { dialog, _ ->
+                dialog.dismiss()
+                Elements.deleteAll()
+                recyclerView.adapter = CustomRecyclerAdapter(Elements.printAll(), recyclerView, activity)
+            }
+        val alert = dialogBuilder.create()
+        alert.setTitle(titleStringId)
+        alert.show()
     }
 }

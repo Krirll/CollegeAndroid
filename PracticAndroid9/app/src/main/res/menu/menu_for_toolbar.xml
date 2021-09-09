@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/delete"
@@ -9,7 +10,9 @@
         android:id="@+id/defaultList"
         android:title="@string/defaultList"
         app:showAsAction="never"/>
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/groupItems"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/sortProduct"
             android:title="@string/sortProduct"
@@ -33,7 +36,7 @@
         android:id="@+id/addBarButton"
         android:icon="@drawable/round_add_white_24dp"
         android:title=""
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/searchBarButton"
         android:icon="@drawable/round_search_white_24dp"
