@@ -20,13 +20,13 @@ class MainActivity : AppCompatActivity() {
     private var indexOfSelectedItem = -1
     private var searchText = ""
     private var searchOpened = true
-    private var restoreListOfElements = false
+    private var isListRestore = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_elements)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        if (!restoreListOfElements) ActualList.list = Elements.printAll()
+        if (!isListRestore) ActualList.list = Elements.printAll()
         recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
         //setting toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /*TODO
+        3. проблема наложения сортировки на поиск (если была строка поиска и сортировка то все вместе)
+        4. сохранять список
        5.диалоговые окна при повороте тоже вызывать по новой если они были вызваны
        7.поправить диалоговое окно, все кнопки на нем должны быть в столбик (независимо от API)
        8.кэширование и восстановление списка
@@ -71,54 +73,40 @@ class MainActivity : AppCompatActivity() {
     */
 
     // actions on click menu items
-    override fun onOptionsItemSelected(item: MenuItem) =
+    override fun onOptionsItemSelected(item: MenuItem) {
+        val search = findViewById<SearchView>(R.id.searchBarButton)
         when (item.itemId) {
             //add element
             R.id.addBarButton -> {
                 startActivity(Intent(this, AddEditElementActivity::class.java))
                 finish()
-                true
             }
             //search element by word
-            R.id.searchBarButton -> { true }
+            R.id.searchBarButton -> {  }
             //types of sort
-            R.id.sortProduct -> {
-                item.isChecked = true
-                ActualList.list = Elements.sort(1)
-                recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
-                true
-            }
-            R.id.sortCount -> {
-                item.isChecked = true
-                ActualList.list = Elements.sort(2)
-                recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
-                true
-            }
-            R.id.sortPrice -> {
-                item.isChecked = true
-                ActualList.list = Elements.sort(3)
-                recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
-                true
-            }
-            R.id.sortDate -> {
-                item.isChecked = true
-                ActualList.list = Elements.sort(4)
-                recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
-                true
-            }
+            R.id.sortProduct -> createListWithSearchOrSort(1, search.query.toString(), item)
+            R.id.sortCount -> createListWithSearchOrSort(2, search.query.toString(), item)
+            R.id.sortPrice -> createListWithSearchOrSort(3, search.query.toString(), item)
+            R.id.sortDate -> createListWithSearchOrSort(4, search.query.toString(), item)
             //очистка спискса
             R.id.delete -> {
-                Dialog.createConfirmDialog(this, R.string.ConfirmMessage, R.string.Confirm, recyclerView)
-                true
+                Dialog.createConfirmDialog(
+                    this,
+                    R.string.ConfirmMessage,
+                    R.string.Confirm,
+                    recyclerView
+                )
             }
             //показать список по умолчанию
             R.id.defaultList -> {
                 //todo после сортировки возможно изменяется основной список
-                recyclerView.adapter = CustomRecyclerAdapter(Elements.printAll(), recyclerView, this)
-                true
+                ActualList.list = Elements.printAll()
+                recyclerView.adapter =
+                    CustomRecyclerAdapter(ActualList.list, recyclerView, this)
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -157,10 +145,29 @@ class MainActivity : AppCompatActivity() {
         searchOpened = savedInstanceState.getBoolean(SAVE_SEARCH_FOCUS)
         Log.d("RESTORE SEARCH FOCUS", "search focus was restored")
         //needs for updating list
-        if (searchText != "" || indexOfSelectedItem != -1) restoreListOfElements = true
+        if (searchText != "") {
+            isListRestore = true
+            ActualList.list = Elements.search(searchText) as MutableList<Objects>
+            Log.d("RESTORE_LIST_SEARCH", "")
+        }
+        if (indexOfSelectedItem != -1) {
+            isListRestore = true
+            ActualList.list = Elements.sort(indexOfSelectedItem - 1)
+            Log.d("RESTORE_LIST_SORT", "")
+        }
         //get index of selected menu item (type of sort)
         indexOfSelectedItem = savedInstanceState.getInt(SAVE_SELECTED_MENU_ITEM, -1)
         Log.d("RESTORE_SELECTED_INDEX", "get selected type of sort")
+    }
+
+    private fun createListWithSearchOrSort(typeOfSort : Int, search : String, item : MenuItem, ) {
+        item.isChecked = true
+        if (search != "") {
+            ActualList.list = Elements.search(search) as MutableList<Objects>
+            ActualList.list = Elements.sort(typeOfSort, ActualList.list)
+        }
+        else ActualList.list = Elements.sort(typeOfSort)
+        recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
     }
 
     override fun onBackPressed() {

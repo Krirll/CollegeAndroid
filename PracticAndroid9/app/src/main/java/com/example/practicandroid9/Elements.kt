@@ -11,15 +11,14 @@ object Elements {
     fun add(elem : Objects) = list.add(elem)
     fun delete(index : Int) = list.removeAt(index)
     fun edit(index : Int, newElem : Objects) { list[index] = newElem }
-    fun sort(typeOfSort : Int) : MutableList<Objects> {
-        val sortedList = printAll()
+    fun sort(typeOfSort : Int, list : MutableList<Objects> = printAll()) : MutableList<Objects> {
             when(typeOfSort) {
-                            1 -> sortedList.sortBy { it.product }
-                            2 -> sortedList.sortBy { it.count }
-                            3 -> sortedList.sortBy { it.price }
-                            else -> sortedList.sortBy { it.date }
+                            1 -> list.sortBy { it.product }
+                            2 -> list.sortBy { it.count }
+                            3 -> list.sortBy { it.price }
+                            else -> list.sortBy { it.date }
         }
-        return sortedList
+        return list
     }
     fun search(word : String) : List<Objects> {
         var foundElements = list.filter { it.product.contains(word) }
