@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                     view.visibility = View.VISIBLE
                     view.text = getString(R.string.NoProducts)
                 }
+                //todo set textView
                 if (ActualList.list.count() > 0 || newText == "") view.visibility = View.INVISIBLE
                 recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, activity)
                 return true
@@ -87,19 +88,22 @@ class MainActivity : AppCompatActivity() {
             R.id.sortDate -> ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
             //очистка спискса
             R.id.delete -> {
+                Dialog.dialogOfCleanList = true
                 Dialog.createConfirmDialog(
                     this,
                     R.string.ConfirmMessage,
                     R.string.Confirm,
                     recyclerView
                 )
+                //todo set textView
             }
             //показать список по умолчанию
             R.id.defaultList -> {
-                if (search.query != "") {
-                    search.setQuery("", false)
+                if (search.query.isNotEmpty()) {
+                    search.setQuery("", true)
                     onBackPressed()
                 }
+                //todo set textView
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter =
                     CustomRecyclerAdapter(ActualList.list, recyclerView, this)
@@ -131,6 +135,11 @@ class MainActivity : AppCompatActivity() {
             if (item.isChecked) outState.putInt(SAVE_SELECTED_MENU_ITEM, index)
         }
         Log.d("SAVE_SELECTED_INDEX", "save selected type of sort")
+        //saving dialog
+        outState.putBoolean(SAVE_DIALOG_DELETE_ALL, Dialog.dialogOfCleanList)
+        Log.d("SAVE_DIALOG", "save dialog state (clean list)")
+        outState.putBoolean(SAVE_DIALOG_DELETE_EDIT, Dialog.dialogOfDeleteOrEdit)
+        Log.d("SAVE_DIALOG", "save dialog state (delete or edit)")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -161,6 +170,31 @@ class MainActivity : AppCompatActivity() {
         }
         if (isListRestore)
             recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
+        if (textView.isVisible)
+            textViewSettings(true, textView.text.toString())
+        else textViewSettings(false)
+        //get dialogs
+        Dialog.dialogOfCleanList = savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL)
+        if (Dialog.dialogOfCleanList)
+            Dialog.createConfirmDialog(
+                this,
+                R.string.ConfirmMessage,
+                R.string.Confirm,
+                recyclerView
+            )
+        Dialog.dialogOfDeleteOrEdit = savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_EDIT)
+        if (Dialog.dialogOfDeleteOrEdit)
+            Dialog.createDialog(Dialog.holderForDialog as RecyclerView.ViewHolder, recyclerView, this)
+        //todo ошибка при касте
+    }
+
+    private fun textViewSettings(flag : Boolean, text : String = "") {
+        val view = findViewById<TextView>(R.id.resultText)
+        if (flag) {
+            view.visibility = View.VISIBLE
+            view.text = text
+        }
+        else view.visibility = View.INVISIBLE
     }
 
     override fun onBackPressed() {
@@ -181,5 +215,7 @@ class MainActivity : AppCompatActivity() {
         const val SAVE_SEARCH_QUERY = "SAVE_SEARCH_QUERY"
         const val SAVE_SEARCH_FOCUS = "SAVE_SEARCH_FOCUS"
         const val SAVE_SELECTED_MENU_ITEM = "SAVE_SELECTED_MENU_ITEM"
+        const val SAVE_DIALOG_DELETE_ALL = "SAVE_DIALOG_DELETE_ALL"
+        const val SAVE_DIALOG_DELETE_EDIT = "SAVE_DIALOG_DELETE_EDIT"
     }
 }

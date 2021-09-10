@@ -28,12 +28,14 @@ class CustomRecyclerAdapter(private val list : MutableList<Objects>,
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        Dialog.holderForDialog = holder
         holder.product.text = holder.itemView.context.getString(R.string.ProductName, list[position].product)
         holder.count.text = holder.itemView.context.getString(R.string.Count, list[position].count)
         holder.price.text = holder.itemView.context.getString(R.string.Price, list[position].price)
         holder.date.text = holder.itemView.context.getString(R.string.DateOfBuy, SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT).format(list[position].date))
         holder.itemView.setOnLongClickListener {
-            val dialogBuilder = Dialog.createDialog(holder, recyclerView, ActualList.list, activity)
+            val dialogBuilder = Dialog.createDialog(holder, recyclerView, activity)
+            Dialog.dialogOfDeleteOrEdit = true
             val alert = dialogBuilder.create()
             alert.setTitle(R.string.ChooseAction)
             alert.show()
