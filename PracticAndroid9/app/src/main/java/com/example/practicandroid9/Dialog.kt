@@ -26,8 +26,8 @@ object Dialog {
         dialogBuilder.setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()
-                Elements.delete(holder.adapterPosition)
-                ActualList.list = Elements.printAll()
+                Elements.delete(ActualList.list[holder.adapterPosition])
+                ActualList.list.removeAt(holder.adapterPosition)
                 recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
                 val view = activity.findViewById<TextView>(R.id.resultText)
                 if (ActualList.list.count() == 0) {
@@ -36,17 +36,18 @@ object Dialog {
                 }
                 else view.visibility = View.INVISIBLE
             }
+                //////TODO нужно дебажить редактирование, что-то не так
             .setNegativeButton(R.string.edit) { dialog, _ ->
                 dialog.dismiss()
                 val intent =
                     Intent(recyclerView.context, AddEditElementActivity::class.java).apply {
                         putExtra(
                             AddEditElementActivity.edit,
-                            list[holder.adapterPosition]
+                            ActualList.list[holder.adapterPosition]
                         )
                         putExtra(
                             AddEditElementActivity.editIndex,
-                            holder.adapterPosition
+                            Elements.find(ActualList.list[holder.adapterPosition])
                         )
                     }
                 ContextCompat.startActivity(recyclerView.context, intent, null)
@@ -65,7 +66,8 @@ object Dialog {
             .setPositiveButton(R.string.Yes) { dialog, _ ->
                 dialog.dismiss()
                 Elements.deleteAll()
-                recyclerView.adapter = CustomRecyclerAdapter(Elements.printAll(), recyclerView, activity)
+                ActualList.list = Elements.printAll()
+                recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, activity)
             }
         val alert = dialogBuilder.create()
         alert.setTitle(titleStringId)

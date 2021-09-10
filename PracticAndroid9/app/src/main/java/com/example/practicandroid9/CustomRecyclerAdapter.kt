@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CustomRecyclerAdapter(val list : MutableList<Objects>,
+class CustomRecyclerAdapter(private val list : MutableList<Objects>,
                             private val recyclerView: RecyclerView,
                             private val activity: MainActivity) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
@@ -33,7 +33,7 @@ class CustomRecyclerAdapter(val list : MutableList<Objects>,
         holder.price.text = holder.itemView.context.getString(R.string.Price, list[position].price)
         holder.date.text = holder.itemView.context.getString(R.string.DateOfBuy, SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ROOT).format(list[position].date))
         holder.itemView.setOnLongClickListener {
-            val dialogBuilder = Dialog.createDialog(holder, recyclerView, list, activity)
+            val dialogBuilder = Dialog.createDialog(holder, recyclerView, ActualList.list, activity)
             val alert = dialogBuilder.create()
             alert.setTitle(R.string.ChooseAction)
             alert.show()

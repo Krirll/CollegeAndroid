@@ -36,10 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_for_toolbar, menu)
         if (menu != null) menuToolbar = menu
-        if (indexOfSelectedItem != -1) {
-            menu?.getItem(indexOfSelectedItem)?.isChecked = true
-            Log.d("INDEX", menu?.getItem(indexOfSelectedItem)?.isChecked.toString())
-        }
+        if (indexOfSelectedItem != -1) menu?.getItem(indexOfSelectedItem)?.isChecked = true
         val searchButton = menu?.findItem(R.id.searchBarButton)
         val search = searchButton?.actionView as SearchView
         if (searchText != "") search.setQuery(searchText, false)
@@ -64,8 +61,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /*TODO
-        3. проблема наложения сортировки на поиск (если была строка поиска и сортировка то все вместе)
-        4. сохранять список
+        3. проблема наложения сортировки на поиск (если была строка поиска и сортировка то все вместе)+++
+        4. сохранять список +++
        5.диалоговые окна при повороте тоже вызывать по новой если они были вызваны
        7.поправить диалоговое окно, все кнопки на нем должны быть в столбик (независимо от API)
        8.кэширование и восстановление списка
@@ -73,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     */
 
     // actions on click menu items
-    override fun onOptionsItemSelected(item: MenuItem) {
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
         val search = findViewById<SearchView>(R.id.searchBarButton)
         when (item.itemId) {
             //add element
@@ -84,10 +81,10 @@ class MainActivity : AppCompatActivity() {
             //search element by word
             R.id.searchBarButton -> {  }
             //types of sort
-            R.id.sortProduct -> createListWithSearchOrSort(1, search.query.toString(), item)
-            R.id.sortCount -> createListWithSearchOrSort(2, search.query.toString(), item)
-            R.id.sortPrice -> createListWithSearchOrSort(3, search.query.toString(), item)
-            R.id.sortDate -> createListWithSearchOrSort(4, search.query.toString(), item)
+            R.id.sortProduct -> ActualList.createListWithSearchOrSort(1, search.query.toString(), item, recyclerView, this)
+            R.id.sortCount -> ActualList.createListWithSearchOrSort(2, search.query.toString(), item, recyclerView, this)
+            R.id.sortPrice -> ActualList.createListWithSearchOrSort(3, search.query.toString(), item, recyclerView, this)
+            R.id.sortDate -> ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
             //очистка спискса
             R.id.delete -> {
                 Dialog.createConfirmDialog(
@@ -99,13 +96,17 @@ class MainActivity : AppCompatActivity() {
             }
             //показать список по умолчанию
             R.id.defaultList -> {
-                //todo после сортировки возможно изменяется основной список
+                if (search.query != "") {
+                    search.setQuery("", false)
+                    onBackPressed()
+                }
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter =
                     CustomRecyclerAdapter(ActualList.list, recyclerView, this)
             }
             else -> super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -150,24 +151,16 @@ class MainActivity : AppCompatActivity() {
             ActualList.list = Elements.search(searchText) as MutableList<Objects>
             Log.d("RESTORE_LIST_SEARCH", "")
         }
-        if (indexOfSelectedItem != -1) {
-            isListRestore = true
-            ActualList.list = Elements.sort(indexOfSelectedItem - 1)
-            Log.d("RESTORE_LIST_SORT", "")
-        }
-        //get index of selected menu item (type of sort)
         indexOfSelectedItem = savedInstanceState.getInt(SAVE_SELECTED_MENU_ITEM, -1)
         Log.d("RESTORE_SELECTED_INDEX", "get selected type of sort")
-    }
-
-    private fun createListWithSearchOrSort(typeOfSort : Int, search : String, item : MenuItem, ) {
-        item.isChecked = true
-        if (search != "") {
-            ActualList.list = Elements.search(search) as MutableList<Objects>
-            ActualList.list = Elements.sort(typeOfSort, ActualList.list)
+        //get index of selected menu item (type of sort)
+        if (indexOfSelectedItem != -1) {
+            isListRestore = true
+            ActualList.list = Elements.sort(indexOfSelectedItem - 1, ActualList.list)
+            Log.d("RESTORE_LIST_SORT", "")
         }
-        else ActualList.list = Elements.sort(typeOfSort)
-        recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
+        if (isListRestore)
+            recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
     }
 
     override fun onBackPressed() {

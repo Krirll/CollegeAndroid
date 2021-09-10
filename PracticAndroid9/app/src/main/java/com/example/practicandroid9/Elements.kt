@@ -9,7 +9,7 @@ data class Objects (val product : String, val count : Int, val price : Double, v
 object Elements {
     private val list : MutableList<Objects> = mutableListOf()
     fun add(elem : Objects) = list.add(elem)
-    fun delete(index : Int) = list.removeAt(index)
+    fun delete(elem : Objects) = list.remove(elem)
     fun edit(index : Int, newElem : Objects) { list[index] = newElem }
     fun sort(typeOfSort : Int, list : MutableList<Objects> = printAll()) : MutableList<Objects> {
             when(typeOfSort) {
@@ -35,6 +35,7 @@ object Elements {
         }
         return foundElements
     }
+    fun find(elem: Objects) = list.indexOf(elem)
     fun deleteAll() = list.clear()
     fun printAll() = list
 }
