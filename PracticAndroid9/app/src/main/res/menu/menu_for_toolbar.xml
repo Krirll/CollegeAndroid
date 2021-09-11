@@ -6,13 +6,14 @@
         android:id="@+id/delete"
         android:title="@string/clearList"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/defaultList"
-        android:title="@string/defaultList"
-        app:showAsAction="never"/>
     <group
         android:id="@+id/groupItems"
         android:checkableBehavior="single">
+        <item
+            android:id="@+id/defaultList"
+            android:title="@string/defaultList"
+            app:showAsAction="never"
+            android:checked="true"/>
         <item
             android:id="@+id/sortProduct"
             android:title="@string/sortProduct"

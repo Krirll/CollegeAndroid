@@ -7,19 +7,17 @@ import java.util.*
 data class Objects (val product : String, val count : Int, val price : Double, val date: Date) : Serializable
 
 object Elements {
-    private val list : MutableList<Objects> = mutableListOf()
+    private var list : MutableList<Objects> = mutableListOf()
     fun add(elem : Objects) = list.add(elem)
     fun delete(elem : Objects) = list.remove(elem)
     fun edit(index : Int, newElem : Objects) { list[index] = newElem }
-    fun sort(typeOfSort : Int, list : MutableList<Objects> = printAll()) : MutableList<Objects> {
-            when(typeOfSort) {
-                            1 -> list.sortBy { it.product }
-                            2 -> list.sortBy { it.count }
-                            3 -> list.sortBy { it.price }
-                            else -> list.sortBy { it.date }
+    fun sort(typeOfSort: Int, currentList: MutableList<Objects>) =
+        when (typeOfSort) {
+            1 -> currentList.sortedBy { it.product } as MutableList<Objects>
+            2 -> currentList.sortedBy { it.count } as MutableList<Objects>
+            3 -> currentList.sortedBy { it.price } as MutableList<Objects>
+            else -> currentList.sortedBy { it.date } as MutableList<Objects>
         }
-        return list
-    }
     fun search(word : String) : List<Objects> {
         var foundElements = list.filter { it.product.contains(word) }
         if (foundElements.count() == 0) {

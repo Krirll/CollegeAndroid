@@ -1,6 +1,7 @@
 package com.example.practicandroid9
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_show_elements)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        if (!isListRestore) ActualList.list = Elements.printAll()
+        if (!isListRestore)
+            ActualList.list = Elements.printAll()
+        checkForTextViewSettings()
         recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
         //setting toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -46,28 +49,20 @@ class MainActivity : AppCompatActivity() {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
             override fun onQueryTextChange(newText: String?): Boolean {
-                val view = findViewById<TextView>(R.id.resultText)
                 ActualList.list = Elements.search(newText as String) as MutableList<Objects>
-                if (ActualList.list.count() == 0) {
-                    view.visibility = View.VISIBLE
-                    view.text = getString(R.string.NoProducts)
+                if (ActualList.list.count() == 0 && newText != "")
+                    textViewSettings(true, getString(R.string.NoProducts))
+                else {
+                    if (ActualList.list.count() == 0 && newText == "")
+                        textViewSettings(true, getString(R.string.EmptyList))
+                    else textViewSettings(false)
                 }
-                //todo set textView
-                if (ActualList.list.count() > 0 || newText == "") view.visibility = View.INVISIBLE
                 recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, activity)
                 return true
             }
         })
         return super.onCreateOptionsMenu(menu)
     }
-
-    /*TODO
-        3. проблема наложения сортировки на поиск (если была строка поиска и сортировка то все вместе)+++
-        4. сохранять список +++
-       5.диалоговые окна при повороте тоже вызывать по новой если они были вызваны +++
-       8.кэширование и восстановление списка
-       9.дизайн
-    */
 
     // actions on click menu items
     override fun onOptionsItemSelected(item: MenuItem) : Boolean {
@@ -78,13 +73,24 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, AddEditElementActivity::class.java))
                 finish()
             }
-            //search element by word
-            R.id.searchBarButton -> {  }
             //types of sort
-            R.id.sortProduct -> ActualList.createListWithSearchOrSort(1, search.query.toString(), item, recyclerView, this)
-            R.id.sortCount -> ActualList.createListWithSearchOrSort(2, search.query.toString(), item, recyclerView, this)
-            R.id.sortPrice -> ActualList.createListWithSearchOrSort(3, search.query.toString(), item, recyclerView, this)
-            R.id.sortDate -> ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
+            //todo в сортировках ломается главный список
+            R.id.sortProduct -> {
+                ActualList.createListWithSearchOrSort(1, search.query.toString(), item, recyclerView, this)
+                checkForTextViewSettings()
+            }
+            R.id.sortCount -> {
+                ActualList.createListWithSearchOrSort(2, search.query.toString(), item, recyclerView, this)
+                checkForTextViewSettings()
+            }
+            R.id.sortPrice -> {
+                ActualList.createListWithSearchOrSort(3, search.query.toString(), item, recyclerView, this)
+                checkForTextViewSettings()
+            }
+            R.id.sortDate -> {
+                ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
+                checkForTextViewSettings()
+            }
             //очистка спискса
             R.id.delete -> {
                 Dialog.createConfirmDialog(
@@ -93,18 +99,21 @@ class MainActivity : AppCompatActivity() {
                     R.string.Confirm,
                     recyclerView
                 )
-                //todo set textView
+                textViewSettings(true, getString(R.string.EmptyList))
+                menuToolbar.findItem(R.id.defaultList).isChecked = true
             }
             //показать список по умолчанию
             R.id.defaultList -> {
+                item.isChecked = true
                 if (search.query.isNotEmpty()) {
                     search.setQuery("", true)
                     onBackPressed()
                 }
-                //todo set textView
+                //todo где то ломается список в самом Elements
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter =
                     CustomRecyclerAdapter(ActualList.list, recyclerView, this)
+                checkForTextViewSettings()
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -178,19 +187,29 @@ class MainActivity : AppCompatActivity() {
             textViewSettings(true, textView.text.toString())
         else textViewSettings(false)
         //get dialogs
-        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL))
+        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL)) {
             Dialog.createConfirmDialog(
                 this,
                 R.string.ConfirmMessage,
                 R.string.Confirm,
                 recyclerView
             )
-        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_EDIT))
+            Log.d("RESTORE_DIALOG", "restore dialog state (clean list)")
+        }
+        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_EDIT)) {
             Dialog.createDialog(
                 Dialog.currentHolder as CustomRecyclerAdapter.MyViewHolder,
                 recyclerView,
                 this
             )
+            Log.d("RESTORE_DIALOG", "restore dialog state (clean list)")
+        }
+    }
+
+    private fun checkForTextViewSettings() {
+        if (ActualList.list.count() == 0)
+            textViewSettings(true, getString(R.string.EmptyList))
+        else textViewSettings(false)
     }
 
     private fun textViewSettings(flag : Boolean, text : String = "") {

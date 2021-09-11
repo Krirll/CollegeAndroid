@@ -3,6 +3,7 @@ package com.example.practicandroid9
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import java.util.Date
@@ -62,14 +63,17 @@ class AddEditElementActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         if (Dialog.isShowingAlertError()) {
             outState.putBoolean(SAVING_DIALOG_STATE, true)
+            Log.d("SAVE_DIALOG", "save dialog state (error dialog)")
             Dialog.closeAlertError()
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.getBoolean(SAVING_DIALOG_STATE))
+        if (savedInstanceState.getBoolean(SAVING_DIALOG_STATE)) {
             Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
+            Log.d("SAVE_DIALOG", "restore dialog state (error dialog)")
+        }
     }
 
     override fun onBackPressed() {
