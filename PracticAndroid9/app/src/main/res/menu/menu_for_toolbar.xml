@@ -42,6 +42,6 @@
         android:icon="@drawable/round_search_white_24dp"
         android:title=""
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

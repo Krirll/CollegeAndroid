@@ -45,12 +45,12 @@ class AddEditElementActivity : AppCompatActivity() {
                         )
                     )
                 }
+                ActualList.list = Elements.printAll()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
             else {
                 Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
-                Dialog.dialogOfError = true
                 productName.text.clear()
                 count.text.clear()
                 price.text.clear()
@@ -60,13 +60,16 @@ class AddEditElementActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(SAVING_DIALOG_STATE, Dialog.dialogOfError)
+        if (Dialog.isShowingAlertError()) {
+            outState.putBoolean(SAVING_DIALOG_STATE, true)
+            Dialog.closeAlertError()
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        Dialog.dialogOfError = savedInstanceState.getBoolean(SAVING_DIALOG_STATE)
-        if (Dialog.dialogOfError) Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
+        if (savedInstanceState.getBoolean(SAVING_DIALOG_STATE))
+            Dialog.createDialog(this, R.string.ErrorField, R.string.Error)
     }
 
     override fun onBackPressed() {

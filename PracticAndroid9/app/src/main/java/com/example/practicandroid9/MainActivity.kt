@@ -64,8 +64,7 @@ class MainActivity : AppCompatActivity() {
     /*TODO
         3. проблема наложения сортировки на поиск (если была строка поиска и сортировка то все вместе)+++
         4. сохранять список +++
-       5.диалоговые окна при повороте тоже вызывать по новой если они были вызваны
-       7.поправить диалоговое окно, все кнопки на нем должны быть в столбик (независимо от API)
+       5.диалоговые окна при повороте тоже вызывать по новой если они были вызваны +++
        8.кэширование и восстановление списка
        9.дизайн
     */
@@ -88,7 +87,6 @@ class MainActivity : AppCompatActivity() {
             R.id.sortDate -> ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
             //очистка спискса
             R.id.delete -> {
-                Dialog.dialogOfCleanList = true
                 Dialog.createConfirmDialog(
                     this,
                     R.string.ConfirmMessage,
@@ -136,10 +134,16 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("SAVE_SELECTED_INDEX", "save selected type of sort")
         //saving dialog
-        outState.putBoolean(SAVE_DIALOG_DELETE_ALL, Dialog.dialogOfCleanList)
-        Log.d("SAVE_DIALOG", "save dialog state (clean list)")
-        outState.putBoolean(SAVE_DIALOG_DELETE_EDIT, Dialog.dialogOfDeleteOrEdit)
-        Log.d("SAVE_DIALOG", "save dialog state (delete or edit)")
+        if (Dialog.isShowingAlertCleanAll()) {
+            outState.putBoolean(SAVE_DIALOG_DELETE_ALL, Dialog.isShowingAlertCleanAll())
+            Dialog.closeAlertCleanAll()
+            Log.d("SAVE_DIALOG", "save dialog state (clean list)")
+        }
+        if (Dialog.isShowingAlertDeleteOrEdit()) {
+            outState.putBoolean(SAVE_DIALOG_DELETE_EDIT, Dialog.isShowingAlertDeleteOrEdit())
+            Dialog.closeAlertDeleteOrEdit()
+            Log.d(SAVE_DIALOG_DELETE_EDIT, "save dialog state (delete/edit)")
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -174,18 +178,19 @@ class MainActivity : AppCompatActivity() {
             textViewSettings(true, textView.text.toString())
         else textViewSettings(false)
         //get dialogs
-        Dialog.dialogOfCleanList = savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL)
-        if (Dialog.dialogOfCleanList)
+        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL))
             Dialog.createConfirmDialog(
                 this,
                 R.string.ConfirmMessage,
                 R.string.Confirm,
                 recyclerView
             )
-        Dialog.dialogOfDeleteOrEdit = savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_EDIT)
-        if (Dialog.dialogOfDeleteOrEdit)
-            Dialog.createDialog(Dialog.holderForDialog as RecyclerView.ViewHolder, recyclerView, this)
-        //todo ошибка при касте
+        if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_EDIT))
+            Dialog.createDialog(
+                Dialog.currentHolder as CustomRecyclerAdapter.MyViewHolder,
+                recyclerView,
+                this
+            )
     }
 
     private fun textViewSettings(flag : Boolean, text : String = "") {

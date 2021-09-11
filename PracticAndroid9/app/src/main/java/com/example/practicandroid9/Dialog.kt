@@ -10,28 +10,27 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 object Dialog {
-    var dialogOfError = false
-    var dialogOfCleanList = false
-    var dialogOfDeleteOrEdit = false
-    lateinit var holderForDialog : Any
+    private lateinit var alertError : AlertDialog
+    private lateinit var alertCleanAll : AlertDialog
+    private lateinit var alertDeleteOrEdit : AlertDialog
+    lateinit var currentHolder : Any
     fun createDialog (activity : Context, messageStringId : Int, titleStringId : Int) {
         val dialogBuilder = AlertDialog.Builder(activity)
         dialogBuilder.setMessage(messageStringId)
             .setCancelable(false)
-            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss(); dialogOfError = false}
-        val alert = dialogBuilder.create()
-        alert.setTitle(titleStringId)
-        alert.show()
+            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
+        alertError = dialogBuilder.create()
+        alertError.setTitle(titleStringId)
+        alertError.show()
     }
 
-    fun createDialog(holder : RecyclerView.ViewHolder, recyclerView : RecyclerView, activity: Activity): AlertDialog.Builder {
+    fun createDialog(holder : CustomRecyclerAdapter.MyViewHolder, recyclerView : RecyclerView, activity: Activity) {
         val dialogBuilder = AlertDialog.Builder(holder.itemView.context)
         dialogBuilder.setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()
-                dialogOfDeleteOrEdit = false
                 Elements.delete(ActualList.list[holder.adapterPosition])
-                ActualList.list.removeAt(holder.adapterPosition)
+                if (ActualList.list.isNotEmpty()) ActualList.list.removeAt(holder.adapterPosition)
                 recyclerView.adapter?.notifyItemRemoved(holder.adapterPosition)
                 val view = activity.findViewById<TextView>(R.id.resultText)
                 if (ActualList.list.count() == 0) {
@@ -40,10 +39,8 @@ object Dialog {
                 }
                 else view.visibility = View.INVISIBLE
             }
-                //////TODO нужно дебажить редактирование, что-то не так
             .setNegativeButton(R.string.edit) { dialog, _ ->
                 dialog.dismiss()
-                dialogOfDeleteOrEdit = false
                 val intent =
                     Intent(recyclerView.context, AddEditElementActivity::class.java).apply {
                         putExtra(
@@ -58,8 +55,10 @@ object Dialog {
                 ContextCompat.startActivity(recyclerView.context, intent, null)
                 activity.finish()
             }
-            .setNeutralButton(R.string.cancel) { dialog, _ -> dialog.dismiss(); dialogOfDeleteOrEdit = false }
-        return dialogBuilder
+            .setNeutralButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        alertDeleteOrEdit = dialogBuilder.create()
+        alertDeleteOrEdit.setTitle(R.string.ChooseAction)
+        alertDeleteOrEdit.show()
     }
     fun createConfirmDialog (activity : MainActivity, messageStringId : Int,
                              titleStringId : Int,
@@ -67,16 +66,27 @@ object Dialog {
         val dialogBuilder = AlertDialog.Builder(activity)
         dialogBuilder.setMessage(messageStringId)
             .setCancelable(false)
-            .setNeutralButton(R.string.No) { dialog, _ -> dialog.dismiss(); dialogOfCleanList = false }
+            .setNeutralButton(R.string.No) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(R.string.Yes) { dialog, _ ->
                 dialog.dismiss()
-                dialogOfCleanList = false
                 Elements.deleteAll()
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, activity)
             }
-        val alert = dialogBuilder.create()
-        alert.setTitle(titleStringId)
-        alert.show()
+        alertCleanAll = dialogBuilder.create()
+        alertCleanAll.setTitle(titleStringId)
+        alertCleanAll.show()
     }
+    fun isShowingAlertError() =
+        if (this::alertError.isInitialized) alertError.isShowing
+        else false
+    fun isShowingAlertCleanAll() =
+        if (this::alertCleanAll.isInitialized) alertCleanAll.isShowing
+        else false
+    fun isShowingAlertDeleteOrEdit() =
+        if (this::alertDeleteOrEdit.isInitialized) alertDeleteOrEdit.isShowing
+        else false
+    fun closeAlertError() = alertError.dismiss()
+    fun closeAlertCleanAll() = alertCleanAll.dismiss()
+    fun closeAlertDeleteOrEdit() = alertDeleteOrEdit.dismiss()
 }
