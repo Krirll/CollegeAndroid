@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 object Dialog {
@@ -62,13 +63,17 @@ object Dialog {
     }
     fun createConfirmDialog (activity : MainActivity, messageStringId : Int,
                              titleStringId : Int,
-                             recyclerView: RecyclerView) {
+                             recyclerView: RecyclerView,
+                             textView: TextView,
+                             text : String) {
         val dialogBuilder = AlertDialog.Builder(activity)
         dialogBuilder.setMessage(messageStringId)
             .setCancelable(false)
             .setNeutralButton(R.string.No) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(R.string.Yes) { dialog, _ ->
                 dialog.dismiss()
+                textView.isVisible = true
+                textView.text = text
                 Elements.deleteAll()
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, activity)

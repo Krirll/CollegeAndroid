@@ -10,7 +10,7 @@ object ActualList {
                                    activity: MainActivity) {
         item.isChecked = true
         if (search != "") list = Elements.search(search) as MutableList<Objects>
-        list = Elements.sort(typeOfSort, list)
+        list = if (Elements.printAll().count() != 0 && list.count() != 0) Elements.sort(typeOfSort, list) else list
         recyclerView.adapter = CustomRecyclerAdapter(list, recyclerView, activity)
     }
 }

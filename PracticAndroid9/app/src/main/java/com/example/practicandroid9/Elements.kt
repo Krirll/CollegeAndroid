@@ -37,4 +37,3 @@ object Elements {
     fun deleteAll() = list.clear()
     fun printAll() = list
 }
-

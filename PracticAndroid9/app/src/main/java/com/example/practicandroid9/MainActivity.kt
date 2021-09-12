@@ -74,22 +74,21 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             //types of sort
-            //todo в сортировках ломается главный список
             R.id.sortProduct -> {
                 ActualList.createListWithSearchOrSort(1, search.query.toString(), item, recyclerView, this)
-                checkForTextViewSettings()
+                checkForTextViewSettings(search.query.toString())
             }
             R.id.sortCount -> {
                 ActualList.createListWithSearchOrSort(2, search.query.toString(), item, recyclerView, this)
-                checkForTextViewSettings()
+                checkForTextViewSettings(search.query.toString())
             }
             R.id.sortPrice -> {
                 ActualList.createListWithSearchOrSort(3, search.query.toString(), item, recyclerView, this)
-                checkForTextViewSettings()
+                checkForTextViewSettings(search.query.toString())
             }
             R.id.sortDate -> {
                 ActualList.createListWithSearchOrSort(4, search.query.toString(), item, recyclerView, this)
-                checkForTextViewSettings()
+                checkForTextViewSettings(search.query.toString())
             }
             //очистка спискса
             R.id.delete -> {
@@ -97,9 +96,10 @@ class MainActivity : AppCompatActivity() {
                     this,
                     R.string.ConfirmMessage,
                     R.string.Confirm,
-                    recyclerView
+                    recyclerView,
+                    findViewById(R.id.resultText),
+                    getString(R.string.EmptyList)
                 )
-                textViewSettings(true, getString(R.string.EmptyList))
                 menuToolbar.findItem(R.id.defaultList).isChecked = true
             }
             //показать список по умолчанию
@@ -109,7 +109,6 @@ class MainActivity : AppCompatActivity() {
                     search.setQuery("", true)
                     onBackPressed()
                 }
-                //todo где то ломается список в самом Elements
                 ActualList.list = Elements.printAll()
                 recyclerView.adapter =
                     CustomRecyclerAdapter(ActualList.list, recyclerView, this)
@@ -124,11 +123,9 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         //saving current text for TextView
         val textView = findViewById<TextView>(R.id.resultText)
-        if (textView.text != "") {
-            outState.putBoolean(SAVE_TEXTVIEW_VIS, textView.isVisible)
-            outState.putString(SAVE_TEXTVIEW, textView.text.toString())
-            Log.d("SAVE TEXTVIEW", "text view was saved")
-        }
+        outState.putBoolean(SAVE_TEXTVIEW_VIS, textView.isVisible)
+        outState.putString(SAVE_TEXTVIEW, textView.text.toString())
+        Log.d("SAVE TEXTVIEW", "text view was saved")
         //saving query and focus for SearchView
         val search = findViewById<SearchView>(R.id.searchBarButton)
         if (search.query != "") {
@@ -139,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("SAVE_SEARCH_FOCUS", "search view was focused")
         //saving index of selected menu item (type of sort)
         menuToolbar.forEachIndexed { index, item ->
-            if (item.isChecked) outState.putInt(SAVE_SELECTED_MENU_ITEM, index)
+            if (item.isChecked && index != 1) outState.putInt(SAVE_SELECTED_MENU_ITEM, index)
         }
         Log.d("SAVE_SELECTED_INDEX", "save selected type of sort")
         //saving dialog
@@ -176,23 +173,26 @@ class MainActivity : AppCompatActivity() {
         indexOfSelectedItem = savedInstanceState.getInt(SAVE_SELECTED_MENU_ITEM, -1)
         Log.d("RESTORE_SELECTED_INDEX", "get selected type of sort")
         //get index of selected menu item (type of sort)
-        if (indexOfSelectedItem != -1) {
+        if (indexOfSelectedItem != -1 && indexOfSelectedItem != 1) {
             isListRestore = true
-            ActualList.list = Elements.sort(indexOfSelectedItem - 1, ActualList.list)
+            ActualList.list =
+                if (Elements.printAll().count() != 0 && ActualList.list.count() != 0)
+                    Elements.sort(indexOfSelectedItem - 1, ActualList.list)
+                else ActualList.list
+            checkForTextViewSettings(searchText)
             Log.d("RESTORE_LIST_SORT", "")
         }
         if (isListRestore)
             recyclerView.adapter = CustomRecyclerAdapter(ActualList.list, recyclerView, this)
-        if (textView.isVisible)
-            textViewSettings(true, textView.text.toString())
-        else textViewSettings(false)
         //get dialogs
         if (savedInstanceState.getBoolean(SAVE_DIALOG_DELETE_ALL)) {
             Dialog.createConfirmDialog(
                 this,
                 R.string.ConfirmMessage,
                 R.string.Confirm,
-                recyclerView
+                recyclerView,
+                findViewById(R.id.resultText),
+                getString(R.string.EmptyList)
             )
             Log.d("RESTORE_DIALOG", "restore dialog state (clean list)")
         }
@@ -206,9 +206,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkForTextViewSettings() {
+    private fun checkForTextViewSettings(search : String = "") {
         if (ActualList.list.count() == 0)
-            textViewSettings(true, getString(R.string.EmptyList))
+            textViewSettings(true, if (search != "") getString(R.string.NoProducts) else getString(R.string.EmptyList))
         else textViewSettings(false)
     }
 
@@ -227,7 +227,7 @@ class MainActivity : AppCompatActivity() {
             search.isIconified = true
             search.isFocusable = false
             searchOpened = false
-            findViewById<TextView>(R.id.resultText).visibility = View.INVISIBLE
+            checkForTextViewSettings(search.query.toString())
             Log.d("SEARCH FOCUS", "search close")
         }
         else super.onBackPressed()

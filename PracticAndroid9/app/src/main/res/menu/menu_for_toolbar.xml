@@ -37,12 +37,12 @@
         android:id="@+id/addBarButton"
         android:icon="@drawable/round_add_white_24dp"
         android:title=""
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/searchBarButton"
         android:icon="@drawable/round_search_white_24dp"
         android:title=""
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
 </menu>
