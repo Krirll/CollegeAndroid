@@ -2,9 +2,13 @@ package com.example.practicandroid9
 
 import java.io.Serializable
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-data class Objects (val product : String, val count : Int, val price : Double, val date: Date) : Serializable
+data class Objects (val product : String,
+                    val count : Int,
+                    val price : Double,
+                    val date: Date) : Serializable
 
 object Elements {
     private var list : MutableList<Objects> = mutableListOf()
