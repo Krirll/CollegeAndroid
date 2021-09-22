@@ -14,7 +14,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class   MainActivity : AppCompatActivity() {
     private lateinit var recyclerView : RecyclerView
     private lateinit var menuToolbar : Menu
     private var indexOfSelectedItem = -1

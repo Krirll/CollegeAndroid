@@ -8,5 +8,6 @@
     <string name="result2">нет решений</string>
     <string name="error">Ошибка</string>
     <string name="resultOfEquation">x &lt; %s</string>
+    <string name="send">Отправить</string>
     <!--MainActivity end-->
 </resources>
