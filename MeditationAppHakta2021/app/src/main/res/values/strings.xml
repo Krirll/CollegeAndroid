@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MeditationApp(Hakta КО 2021)</string>
+    <string name="hello">ПРИВЕТ</string>
+    <string name="helloText">Наслаждайся отборочными.\nБудь внимателен.\nДелай хорошо.</string>
+    <string name="helloEnter">Войти в аккаунт</string>
+    <string name="noAccount">Еще нет аккаунта?   </string>
+    <string name="helloRegistration">Зарегистрируйтесь</string>
+    <string name="willRegister">Тут будет регистрация</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="profileButton">Профиль</string>
+</resources>

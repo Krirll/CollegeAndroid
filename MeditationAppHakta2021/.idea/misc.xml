@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/drawable/ic_launcher_background.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout-w1240dp/login_activity.xml" value="0.22265625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout-w936dp/login_activity.xml" value="0.205859375" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout/activity_main.xml" value="0.27025641025641023" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout/activity_register.xml" value="0.1046875" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout/hello_activity.xml" value="0.4" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout/login_activity.xml" value="0.4" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/layout/register_activity.xml" value="0.264" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/mipmap-anydpi-v26/ic_app.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/mipmap-anydpi-v26/ic_main.xml" value="0.290625" />
+        <entry key="..\:/Users/1/AndroidStudioProjects/MeditationAppHakta2021/app/src/main/res/mipmap-anydpi-v26/ic_main_round.xml" value="0.290625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
